@@ -100,4 +100,4 @@ This project wasn't just *coded*; it was *vibed*.
 
 ---
 
-*Crafted with 💖 and ⚡ by NeonCrust Devs.*
+
