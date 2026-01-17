@@ -60,16 +60,16 @@ export function GalleryGrid() {
                         onClick={() => setSelectedImage(null)}
                     >
                         <button
-                            className="absolute top-4 right-4 text-white hover:text-neon-pink transition-colors"
+                            className="absolute top-4 right-4 text-white hover:text-neon-pink transition-colors z-50 p-2"
                             onClick={() => setSelectedImage(null)}
                         >
                             <X className="w-8 h-8" />
                         </button>
                         <motion.div
-                            initial={{ scale: 0.9 }}
-                            animate={{ scale: 1 }}
-                            exit={{ scale: 0.9 }}
-                            className="relative w-full max-w-5xl max-h-[90vh] aspect-square md:aspect-video rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/10"
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            className="relative w-full max-w-5xl max-h-[90vh] aspect-square md:aspect-video rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/10 bg-black"
                             onClick={(e) => e.stopPropagation()}
                         >
                             <Image
@@ -77,6 +77,7 @@ export function GalleryGrid() {
                                 alt="Gallery viewing"
                                 fill
                                 className="object-contain"
+                                sizes="100vw"
                             />
                         </motion.div>
                     </motion.div>

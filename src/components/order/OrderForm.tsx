@@ -1,18 +1,16 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { products } from "@/data/products";
 import { siteConfig } from "@/data/site";
 import { MessageCircle, Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
-
-type OrderItem = {
-    productId: string;
-    quantity: number;
-};
+import { useCart } from "@/context/CartContext";
 
 export function OrderForm() {
+    const { items, addToCart, removeFromCart, updateQuantity, cartTotal } = useCart();
+
     const [formData, setFormData] = useState({
         name: "",
         phone: "",
@@ -23,44 +21,25 @@ export function OrderForm() {
         notes: "",
     });
 
-    const [cart, setCart] = useState<OrderItem[]>([]);
     const [selectedProductId, setSelectedProductId] = useState("");
 
-    const addToCart = () => {
+    const handleAddItem = () => {
         if (!selectedProductId) return;
-        const existing = cart.find(item => item.productId === selectedProductId);
-        if (existing) {
-            setCart(cart.map(item => item.productId === selectedProductId ? { ...item, quantity: item.quantity + 1 } : item));
-        } else {
-            setCart([...cart, { productId: selectedProductId, quantity: 1 }]);
+        const product = products.find(p => p.id === selectedProductId);
+        if (product) {
+            addToCart({
+                productId: product.id,
+                name: product.name,
+                price: product.price,
+                image: product.image,
+            });
         }
         setSelectedProductId("");
     };
 
-    const removeFromCart = (id: string) => {
-        setCart(cart.filter(item => item.productId !== id));
-    };
-
-    const updateQuantity = (id: string, delta: number) => {
-        setCart(cart.map(item => {
-            if (item.productId === id) {
-                return { ...item, quantity: Math.max(1, item.quantity + delta) };
-            }
-            return item;
-        }));
-    };
-
-    const cartTotal = useMemo(() => {
-        return cart.reduce((total, item) => {
-            const product = products.find(p => p.id === item.productId);
-            return total + (product ? product.price * item.quantity : 0);
-        }, 0);
-    }, [cart]);
-
     const generateWhatsAppLink = () => {
-        const itemsList = cart.map(item => {
-            const product = products.find(p => p.id === item.productId);
-            return `- ${product?.name} x${item.quantity} (₹${product!.price * item.quantity})`;
+        const itemsList = items.map(item => {
+            return `- ${item.name} x${item.quantity} (₹${item.price * item.quantity})`;
         }).join("%0a");
 
         const message = `*New Order from Website*%0a` +
@@ -79,7 +58,7 @@ export function OrderForm() {
         return `https://wa.me/${siteConfig.whatsapp}?text=${message}`;
     };
 
-    const isValid = formData.name && formData.phone && formData.date && formData.time && cart.length > 0 && (formData.type === 'pickup' || formData.address);
+    const isValid = formData.name && formData.phone && formData.date && formData.time && items.length > 0 && (formData.type === 'pickup' || formData.address);
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -108,8 +87,8 @@ export function OrderForm() {
                             key={type}
                             onClick={() => setFormData({ ...formData, type: type as any })}
                             className={`flex-1 py-2 rounded-md font-bold text-sm transition-all ${formData.type === type
-                                    ? "bg-neon-pink text-white shadow-[0_0_10px_rgba(255,0,255,0.3)]"
-                                    : "text-gray-400 hover:text-white"
+                                ? "bg-neon-pink text-white shadow-[0_0_10px_rgba(255,0,255,0.3)]"
+                                : "text-gray-400 hover:text-white"
                                 }`}
                         >
                             {type.charAt(0).toUpperCase() + type.slice(1)}
@@ -148,7 +127,7 @@ export function OrderForm() {
                                 <option key={p.id} value={p.id}>{p.name} - ₹{p.price}</option>
                             ))}
                         </select>
-                        <Button onClick={addToCart} disabled={!selectedProductId} variant="secondary">Add</Button>
+                        <Button onClick={handleAddItem} disabled={!selectedProductId} variant="secondary">Add</Button>
                     </div>
                 </div>
 
@@ -168,30 +147,27 @@ export function OrderForm() {
                     <ShoppingBag className="text-neon-cyan" /> Order Summary
                 </h3>
 
-                {cart.length === 0 ? (
+                {items.length === 0 ? (
                     <div className="text-center py-12 text-gray-500">
                         <p>Your cart is empty.</p>
                         <p className="text-sm">Select items to proceed.</p>
                     </div>
                 ) : (
                     <div className="space-y-4 mb-8">
-                        {cart.map(item => {
-                            const product = products.find(p => p.id === item.productId)!;
-                            return (
-                                <div key={item.productId} className="flex justify-between items-center bg-black/20 p-3 rounded-lg">
-                                    <div className="flex-grow">
-                                        <p className="font-bold text-white text-sm">{product.name}</p>
-                                        <p className="text-neon-cyan text-xs">₹{product.price} x {item.quantity}</p>
-                                    </div>
-                                    <div className="flex items-center gap-3">
-                                        <button onClick={() => updateQuantity(item.productId, -1)} className="text-gray-400 hover:text-white"><Minus className="h-4 w-4" /></button>
-                                        <span className="text-sm w-4 text-center">{item.quantity}</span>
-                                        <button onClick={() => updateQuantity(item.productId, 1)} className="text-gray-400 hover:text-white"><Plus className="h-4 w-4" /></button>
-                                        <button onClick={() => removeFromCart(item.productId)} className="text-red-500 hover:text-red-400 ml-2"><Trash2 className="h-4 w-4" /></button>
-                                    </div>
+                        {items.map(item => (
+                            <div key={item.productId} className="flex justify-between items-center bg-black/20 p-3 rounded-lg">
+                                <div className="flex-grow">
+                                    <p className="font-bold text-white text-sm">{item.name}</p>
+                                    <p className="text-neon-cyan text-xs">₹{item.price} x {item.quantity}</p>
                                 </div>
-                            );
-                        })}
+                                <div className="flex items-center gap-3">
+                                    <button onClick={() => updateQuantity(item.productId, -1)} className="text-gray-400 hover:text-white"><Minus className="h-4 w-4" /></button>
+                                    <span className="text-sm w-4 text-center">{item.quantity}</span>
+                                    <button onClick={() => updateQuantity(item.productId, 1)} className="text-gray-400 hover:text-white"><Plus className="h-4 w-4" /></button>
+                                    <button onClick={() => removeFromCart(item.productId)} className="text-red-500 hover:text-red-400 ml-2"><Trash2 className="h-4 w-4" /></button>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 )}
 

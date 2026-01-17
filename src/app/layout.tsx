@@ -5,6 +5,11 @@ import { cn } from "@/lib/utils";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingButtons } from "@/components/layout/FloatingButtons";
+import { BackgroundParticles } from "@/components/layout/BackgroundParticles";
+import { CartProvider } from "@/context/CartContext";
+import { CartSidebar } from "@/components/cart/CartSidebar";
+import { TopBanner } from "@/components/layout/marketing/TopBanner";
+import { MobileStickyCTA } from "@/components/layout/marketing/MobileStickyCTA";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
@@ -28,12 +33,18 @@ export default function RootLayout({
           "min-h-screen bg-dark-bg text-white font-sans antialiased overflow-x-hidden flex flex-col"
         )}
       >
-        <Navbar />
-        <main className="flex-grow pt-20">
-          {children}
-        </main>
-        <Footer />
-        <FloatingButtons />
+        <CartProvider>
+          <TopBanner />
+          <BackgroundParticles />
+          <Navbar />
+          <CartSidebar />
+          <main className="flex-grow pt-20">
+            {children}
+          </main>
+          <Footer />
+          <FloatingButtons />
+          <MobileStickyCTA />
+        </CartProvider>
       </body>
     </html>
   );

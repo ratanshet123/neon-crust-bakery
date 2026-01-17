@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { Star } from "lucide-react";
 
 const testimonials = [
@@ -61,11 +62,14 @@ export function Testimonials() {
                             <p className="text-xl md:text-2xl text-gray-200 mb-6 italic">&quot;{testimonials[current].text}&quot;</p>
                             <div className="flex items-center gap-4">
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img
-                                    src={testimonials[current].avatar}
-                                    alt={testimonials[current].name}
-                                    className="w-12 h-12 rounded-full border-2 border-neon-cyan"
-                                />
+                                <div className="relative w-12 h-12 rounded-full border-2 border-neon-cyan overflow-hidden">
+                                    <Image
+                                        src={testimonials[current].avatar}
+                                        alt={testimonials[current].name}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                </div>
                                 <div className="text-left">
                                     <p className="font-bold text-white">{testimonials[current].name}</p>
                                     <p className="text-xs text-neon-pink uppercase tracking-wider">{testimonials[current].role}</p>

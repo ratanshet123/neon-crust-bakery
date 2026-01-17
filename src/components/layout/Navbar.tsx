@@ -8,6 +8,7 @@ import { Menu, X, ShoppingBag } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/data/site";
 import { Button } from "@/components/ui/Button";
+import { useCart } from "@/context/CartContext";
 
 const navLinks = [
     { name: "Home", href: "/" },
@@ -21,6 +22,7 @@ export function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const pathname = usePathname();
+    const { toggleCart, cartCount } = useCart();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -65,9 +67,20 @@ export function Navbar() {
                     </div>
 
                     <div className="hidden md:flex items-center gap-4">
+                        <button
+                            onClick={toggleCart}
+                            className="relative p-2 text-gray-300 hover:text-white transition-colors"
+                        >
+                            <ShoppingBag className="h-6 w-6" />
+                            {cartCount > 0 && (
+                                <span className="absolute -top-1 -right-1 bg-neon-pink text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center shadow-[0_0_10px_#ff00ff]">
+                                    {cartCount}
+                                </span>
+                            )}
+                        </button>
                         <Link href="/order">
                             <Button size="sm" variant="primary" glow>
-                                Order Online <ShoppingBag className="ml-2 h-4 w-4" />
+                                Order Online
                             </Button>
                         </Link>
                     </div>

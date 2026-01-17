@@ -5,6 +5,9 @@ import { CustomCakes } from "@/components/home/CustomCakes";
 import { Testimonials } from "@/components/home/Testimonials";
 import { FAQ } from "@/components/home/FAQ";
 import { Newsletter } from "@/components/home/Newsletter";
+import { WhyChooseUs } from "@/components/home/WhyChooseUs";
+import { GoogleReviews } from "@/components/home/GoogleReviews";
+import { InstagramStrip } from "@/components/home/InstagramStrip";
 import { siteConfig } from "@/data/site";
 
 export default function Home() {
@@ -49,10 +52,13 @@ export default function Home() {
       />
       <Hero />
       <Highlights />
+      <WhyChooseUs />
       <BestSellers />
       <CustomCakes />
+      <GoogleReviews />
       <Testimonials />
       <FAQ />
+      <InstagramStrip />
       <Newsletter />
     </div>
   );

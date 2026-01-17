@@ -15,18 +15,22 @@ export function Newsletter() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                 >
-                    <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mb-6">Join the Neon Revolution</h2>
-                    <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
-                        Subscribe to our newsletter for exclusive drops, secret menu codes, and futuristic baking tips.
+                    <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mb-6">
+                        Subscribe for <span className="text-neon-pink text-glow">Updates</span>
+                    </h2>
+                    <p className="text-gray-300 mb-10 max-w-2xl mx-auto text-lg">
+                        Join our uplink. Get the latest flavor patches and promo vectors delivered directly to your inbox.
                     </p>
 
-                    <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
+                    <form className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto" onSubmit={(e) => e.preventDefault()}>
                         <input
                             type="email"
-                            placeholder="Enter your email"
-                            className="flex-grow bg-black/50 border border-white/20 rounded-lg px-6 py-4 text-white focus:outline-none focus:border-neon-cyan focus:shadow-[0_0_15px_rgba(0,255,255,0.3)] transition-all"
+                            placeholder="Enter your email frequency..."
+                            className="flex-grow bg-white/10 border border-white/20 rounded-xl px-6 py-4 text-white placeholder-gray-400 focus:outline-none focus:border-neon-pink focus:ring-1 focus:ring-neon-pink transition-all"
                         />
-                        <Button size="lg" glow type="submit">Subscribe</Button>
+                        <Button size="lg" glow variant="primary" className="whitespace-nowrap">
+                            Connect
+                        </Button>
                     </form>
                 </motion.div>
             </div>

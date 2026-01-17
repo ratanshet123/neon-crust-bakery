@@ -15,36 +15,38 @@ export function Hero() {
             </div>
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
-                    className="text-5xl md:text-8xl font-heading font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-neon-pink to-neon-cyan leading-tight"
                 >
-                    Taste the <br /> Future
-                </motion.h1>
+                    <span className="inline-block py-1 px-3 rounded-full bg-white/10 backdrop-blur-md border border-neon-cyan/50 text-neon-cyan text-sm font-bold tracking-wider mb-6">
+                        EST. 2024 &bull; SYSTEM ONLINE
+                    </span>
+                    <h1 className="text-5xl md:text-8xl font-heading font-extrabold mb-6 tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-500 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                        TASTE THE <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-pink via-purple-500 to-neon-cyan drop-shadow-[0_0_25px_rgba(255,0,255,0.6)]">
+                            FUTURE
+                        </span>
+                    </h1>
+                    <p className="mt-4 text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto font-light leading-relaxed">
+                        High-fidelity flavors. Next-gen textures.
+                        <br />
+                        Upgrade your dessert experience today.
+                    </p>
 
-                <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    className="text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl mx-auto"
-                >
-                    Experience baking reimagined with cyberpunk aesthetics and next-gen flavors. Welcome to NeonCrust.
-                </motion.p>
-
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
-                    className="flex flex-col sm:flex-row gap-4 justify-center"
-                >
-                    <Link href="/menu">
-                        <Button size="lg" glow>Explore Menu</Button>
-                    </Link>
-                    <Link href="/order">
-                        <Button size="lg" variant="outline">Order Now</Button>
-                    </Link>
+                    <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+                        <Link href="/menu">
+                            <Button size="lg" glow variant="primary" className="w-full sm:w-auto text-lg px-10 py-6">
+                                Initialize Order
+                            </Button>
+                        </Link>
+                        <Link href="/gallery">
+                            <Button size="lg" variant="outline" className="w-full sm:w-auto text-lg px-10 py-6">
+                                View Gallery
+                            </Button>
+                        </Link>
+                    </div>
                 </motion.div>
             </div>
         </section>
